@@ -1,0 +1,138 @@
+[
+  {
+    "id": 1001,
+    "type": "income",
+    "amount": 85000.00,
+    "category": "salary",
+    "date": "2026-01-05T09:00:00",
+    "comment": "Зарплата за декабрь"
+  },
+  {
+    "id": 1002,
+    "type": "income",
+    "amount": 25000.00,
+    "category": "freelance",
+    "date": "2026-01-07T14:00:00",
+    "comment": "Дизайн логотипа"
+  },
+  {
+    "id": 1003,
+    "type": "income",
+    "amount": 10000.00,
+    "category": "investment",
+    "date": "2026-01-10T10:30:00",
+    "comment": "Купон по облигациям"
+  },
+  {
+    "id": 1004,
+    "type": "income",
+    "amount": 5000.00,
+    "category": "gift",
+    "date": "2026-01-15T12:00:00",
+    "comment": "Подарок от родителей"
+  },
+  {
+    "id": 1005,
+    "type": "income",
+    "amount": 2000.00,
+    "category": "other_income",
+    "date": "2026-01-20T16:45:00",
+    "comment": "Кэшбэк по карте"
+  },
+  {
+    "id": 2001,
+    "type": "expense",
+    "amount": 15000.00,
+    "category": "housing",
+    "date": "2026-01-01T10:00:00",
+    "comment": "Коммунальные платежи"
+  },
+  {
+    "id": 2002,
+    "type": "expense",
+    "amount": 12000.00,
+    "category": "food",
+    "date": "2026-01-03T18:30:00",
+    "comment": "Продукты на месяц"
+  },
+  {
+    "id": 2003,
+    "type": "expense",
+    "amount": 3000.00,
+    "category": "transport",
+    "date": "2026-01-05T08:00:00",
+    "comment": "Бензин"
+  },
+  {
+    "id": 2004,
+    "type": "expense",
+    "amount": 5000.00,
+    "category": "entertainment",
+    "date": "2026-01-08T19:00:00",
+    "comment": "Концерт"
+  },
+  {
+    "id": 2005,
+    "type": "expense",
+    "amount": 3500.00,
+    "category": "health",
+    "date": "2026-01-10T11:00:00",
+    "comment": "Лекарства"
+  },
+  {
+    "id": 2006,
+    "type": "expense",
+    "amount": 6000.00,
+    "category": "education",
+    "date": "2026-01-12T15:00:00",
+    "comment": "Курсы английского"
+  },
+  {
+    "id": 2007,
+    "type": "expense",
+    "amount": 8500.00,
+    "category": "taxes",
+    "date": "2026-01-15T09:30:00",
+    "comment": "Налог на квартиру"
+  },
+  {
+    "id": 2008,
+    "type": "expense",
+    "amount": 1500.00,
+    "category": "other_expense",
+    "date": "2026-01-18T14:00:00",
+    "comment": "Мелкие расходы"
+  },
+  {
+    "id": 2009,
+    "type": "expense",
+    "amount": 4200.00,
+    "category": "food",
+    "date": "2026-01-20T12:30:00",
+    "comment": "Обеды в кафе"
+  },
+  {
+    "id": 2010,
+    "type": "expense",
+    "amount": 1800.00,
+    "category": "transport",
+    "date": "2026-01-22T07:00:00",
+    "comment": "Проезд на метро"
+  },
+  {
+    "id": 2011,
+    "type": "expense",
+    "amount": 2500.00,
+    "category": "entertainment",
+    "date": "2026-01-25T20:30:00",
+    "comment": "Боулинг"
+  },
+  {
+    "id": 2012,
+    "type": "expense",
+    "amount": 3000.00,
+    "category": "health",
+    "date": "2026-01-28T10:00:00",
+    "comment": "Спортзал абонемент"
+  }
+]
