@@ -175,6 +175,14 @@ class TrackerCLI:
     @staticmethod
     def _print_stats(stats: Dict[str, Any]):
         report_type = stats.get('report_type', 'full_stats').upper()
+
+        if report_type == 'EMPTY_REPORT':
+            print("\nNo transactions found for the selected filters.")
+            print()
+            return
+
+        if report_type is None:
+            report_type = "empty_report"
         print(f"\nTRANSACTION STATISTICS ({report_type})")
         print()
 
