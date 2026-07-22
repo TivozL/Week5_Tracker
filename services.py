@@ -18,8 +18,23 @@ class ServiceTracker:
 
     def _load_data(self):           #загрузка данных из CSV
         raw_data = self.storage.load_csv()
-        self.notes = [Note.from_dict_to_note(item) for item in raw_data]
-        self.logger.info(f"Loaded {len(self.notes)} notes from CSV")
+        loaded_notes = []
+        skipped_rows = 0
+
+        for idx,item in enumerate(raw_data):
+            try:
+                note = Note.from_dict_to_note(item)
+                loaded_notes.append(note)
+            except (ValueError, KeyError, TypeError) as error:
+                self.logger.warning(f"Skipping invalid row {idx + 1}: {error}. Data: {item}")
+                skipped_rows += 1
+                continue
+        self.notes = loaded_notes
+        if skipped_rows > 0:
+            self.logger.warning(f"Loaded {len(self.notes)} notes, skipped {skipped_rows} invalid rows")
+        else:
+            self.logger.info(f"Loaded {len(self.notes)} notes from CSV")
+
 
     def _get_next_id(self) -> int:      #генерация нового ID на основе максимального ID в списке
         if not self.notes:
@@ -98,17 +113,55 @@ class ServiceTracker:
         imported = 0
         skipped = 0
 
+        existing_transactions = set()   #множество кортежей с данными имеющихся записей
+        for note in self.notes:
+            key = (note.type, note.amount, note.category, note.date, note.comment)
+            existing_transactions.add(key)
+
         try:
             for transaction_data in self.storage.read_from_json(file_path):
                 try:
-                    note = Note.from_dict_to_note(transaction_data)
-                    note.id = self._get_next_id()
+                    type_str = transaction_data.get('type')     #извлечение данных для валидации
+                    amount = transaction_data.get('amount')
+                    category_str = transaction_data.get('category')
+                    date_str = transaction_data.get('date')
+                    comment = transaction_data.get('comment', '')
 
-                    self.notes.append(note)
+                    validated_dict = Validator.is_all_valid(    #валидация
+                        type=type_str,
+                        amount=amount,
+                        category=category_str,
+                        date=date_str,
+                        comment=comment
+                    )
+                    note_key =(             #кортеж ключ для проверки нахождения в существующих записях
+                        validated_dict["type"],
+                        validated_dict["amount"],
+                        validated_dict["category"],
+                        validated_dict["date"],
+                        validated_dict["comment"]
+                    )
+
+                    if note_key in existing_transactions:       #если такая запись уже есть
+                        self.logger.info(f"Skipping duplicate transaction")
+                        skipped += 1
+                        continue
+
+                    new_note = Note(
+                        id=self._get_next_id(),
+                        type=validated_dict["type"],
+                        amount=validated_dict["amount"],
+                        category=validated_dict["category"],
+                        date=validated_dict["date"],
+                        comment=validated_dict["comment"]
+                    )
+
+                    self.notes.append(new_note)
+                    existing_transactions.add(note_key)  # Добавляем в множество
                     imported += 1
 
-                except Exception as error:
-                    self.logger.warning(f"Skipping invalid transaction: {error}")
+                except (ValueError, KeyError, TypeError) as error:
+                    self.logger.warning(f"Skipping invalid transaction: {error}. Data: {transaction_data}")
                     skipped += 1
                     continue
 
@@ -181,6 +234,8 @@ class ServiceTracker:
         note.category = validated['category']
         note.date = validated['date']
         note.comment = validated['comment']
+
+        self._save_all()
 
         self.logger.info(
             f"Note updated ID={note_id}: "
