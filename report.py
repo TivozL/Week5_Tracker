@@ -12,6 +12,7 @@ class ReportType(Enum):
     BY_CATEGORY = "by_category"
     BY_TYPE = "by_type"
     BY_PERIOD_AND_TYPE = "by_period_and_type"
+    EMPTY = "empty_report"
 
 class ReportBuilder:
     def __init__(self, tracker: ServiceTracker):
@@ -39,6 +40,7 @@ class ReportBuilder:
 
         if not notes:
             self.logger.warning("No transactions found")
+            stats['report_type'] = ReportType.EMPTY.value
             return stats
 
         for note in notes:
